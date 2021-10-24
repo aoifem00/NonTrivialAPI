@@ -20,7 +20,10 @@
     NSString *url_string=@"https://www.binghamton.edu/services/transportation-and-parking/parking/index.html";
     NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url_string]];
     NSLog(@"%@", data);
-
+    NSString * convertedStr =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"Converted String = %@",convertedStr);
+    //[str appendFormat:@"%d ", data];
+    //NSLog(@"%@",str);
 }
 
 
