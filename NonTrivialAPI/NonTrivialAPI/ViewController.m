@@ -16,7 +16,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    NSError *error;
+    NSString *url_string=@"https://www.binghamton.edu/services/transportation-and-parking/parking/index.html";
+    NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url_string]];
+    NSLog(@"%@", data);
+
 }
 
 
