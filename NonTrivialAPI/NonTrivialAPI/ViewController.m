@@ -13,6 +13,11 @@
 
 @implementation ViewController
 
+- (void)getTimes:(NSMutableArray*)arr forDay:(int)currentDay{
+    NSLog(@"%@", arr[currentDay]);
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -31,7 +36,7 @@
     
     //Separate elements by </td>
     NSMutableArray *listItems = (NSMutableArray*)[substr componentsSeparatedByString:@"</tr>"];
-    NSMutableArray *columns=[[NSMutableArray alloc] init];
+    NSMutableArray *daysAndTimes=[[NSMutableArray alloc] init];
     
     for(int i=0; i<listItems.count; i++){
         NSMutableArray *arr=(NSMutableArray*)[listItems[i] componentsSeparatedByString:@"<tr>"];
@@ -39,36 +44,40 @@
         if(arr.count==2){
             listItems[i]=arr[1];
         }
-        [columns addObject:[listItems[i] componentsSeparatedByString:@"<td>"]];
+        [daysAndTimes addObject:[listItems[i] componentsSeparatedByString:@"<td>"]];
         
     }
-    NSDictionary *dict=[[NSDictionary alloc] init];
+    NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
     NSArray *daysOfTheWeek=@[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday"];
-    int currentDay=0;
-    for(int i=0; i<columns.count; i++){
-        for(int j=0; j<((NSArray*)columns[i]).count; j++){
-            /*if(currentDay==5){
-                continue;
-            }
-            if([columns[i][j] containsString:daysOfTheWeek[currentDay]]){
-                NSLog(@"%@", columns[i][j]);
-                columns[i][j]=
-                currentDay=currentDay+1;
-            }*/
-           // NSLog(@"%@", columns[i][j]);
-            NSString* temp=(NSString*)columns[i][j];
+    //int currentDay=0;
+    //Format 2d array
+    for(int i=0; i<daysAndTimes.count; i++){
+        for(int j=0; j<((NSMutableArray*)daysAndTimes[i]).count; j++){
+            NSString* temp=(NSString*)daysAndTimes[i][j];
             if([temp containsString:@"</td>"]){
                 NSArray* tempArr=[temp componentsSeparatedByString:@"</td>"];
-                //NSLog(@"%d",[tempArr count]);
-                columns[i][j]=tempArr[0];
-                /*temp=[temp stringByReplacingOccurrencesOfString:@"</td>" withString:@""];
-                NSLog(@"%@", temp);
-                columns[i][j]=temp;*/
-                
+                daysAndTimes[i][j]=tempArr[0];
             }
-            NSLog(@"%@", columns[i][j]);
         }
     }
+    //Add days as keys in dictionary
+    //Values will be another dictionary where the values in that dictionary are the parking lots
+    //e.g. dict[@"Monday"]={[time 1]:parking lots, [time 2]: parking lots, etc.}
+    int currDay=0;
+    for(int i=0; i<=daysAndTimes.count; i++){
+        NSString *temp=(NSString*)daysAndTimes[0][i];
+        if([temp containsString:daysOfTheWeek[currDay]]){
+            [dict setValue:@"placeholder" forKey:daysOfTheWeek[currDay]];
+            currDay++;
+        }
+    }
+    currDay=0;
+    
+    for(int i=0; i<daysAndTimes.count; i++){
+        [self getTimes:daysAndTimes forDay:i];
+        
+    }
+    //NSLog(@"%@", dict);
     
     
 }
