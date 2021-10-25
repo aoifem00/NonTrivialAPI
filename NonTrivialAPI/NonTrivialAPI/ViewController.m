@@ -31,15 +31,23 @@
     
     //Separate elements by </td>
     NSMutableArray *listItems = (NSMutableArray*)[substr componentsSeparatedByString:@"</tr>"];
-    //NSLog(@"%@", listItems);
+    NSMutableArray *columns=[[NSMutableArray alloc] init];
+    
     for(int i=0; i<listItems.count; i++){
         NSArray *arr=[listItems[i] componentsSeparatedByString:@"<tr>"];
-        NSLog(@"%d", arr.count);
+        //NSLog(@"%d", arr.count);
         if(arr.count==2){
             listItems[i]=arr[1];
         }
-        NSLog(@"%@", listItems[i]);
+        [columns addObject:[listItems[i] componentsSeparatedByString:@"<td>"]];
+        
     }
+    for(int i=0; i<columns.count; i++){
+        for(int j=0; j<((NSArray*)columns[i]).count; j++){
+            NSLog(@"%@", columns[i][j]);
+        }
+    }
+    
     
 }
 
