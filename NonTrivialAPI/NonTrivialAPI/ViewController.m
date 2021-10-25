@@ -28,7 +28,19 @@
     int tableEnd=(int)range.location;
     NSRange tableRange=NSMakeRange((NSUInteger)tableStart, (NSUInteger)tableEnd-tableStart);
     NSString *substr=[convertedStr substringWithRange:tableRange];
-    NSLog(@"%@", substr);
+    
+    //Separate elements by </td>
+    NSMutableArray *listItems = (NSMutableArray*)[substr componentsSeparatedByString:@"</tr>"];
+    //NSLog(@"%@", listItems);
+    for(int i=0; i<listItems.count; i++){
+        NSArray *arr=[listItems[i] componentsSeparatedByString:@"<tr>"];
+        NSLog(@"%d", arr.count);
+        if(arr.count==2){
+            listItems[i]=arr[1];
+        }
+        NSLog(@"%@", listItems[i]);
+    }
+    
 }
 
 
