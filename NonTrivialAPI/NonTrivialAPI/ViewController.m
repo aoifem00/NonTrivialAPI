@@ -30,7 +30,7 @@
     return str;
 }
 
-- (NSMutableDictionary*) setupDictionary{
+- (NSMutableArray*) setupDictionary{
     NSString *url_string=@"https://www.binghamton.edu/services/transportation-and-parking/parking/index.html";
     NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url_string]];
     NSString * convertedStr =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -55,9 +55,7 @@
         [daysAndTimes addObject:[listItems[i] componentsSeparatedByString:@"<td>"]];
         
     }
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc] init];
-    NSArray *daysOfTheWeek=@[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday"];
-    //int currentDay=0;
+    
     //Format 2d array
     for(int i=0; i<daysAndTimes.count; i++){
         for(int j=0; j<((NSMutableArray*)daysAndTimes[i]).count; j++){
@@ -69,31 +67,25 @@
             }
         }
     }
-    //Add days as keys in dictionary
-    //Values will be another dictionary where the values in that dictionary are the parking lots
-    //e.g. dict[@"Monday"]={[time 1]:parking lots, [time 2]: parking lots, etc.}
-    int currDay=0;
-    for(int i=0; i<=daysAndTimes.count; i++){
-        NSString *temp=(NSString*)daysAndTimes[0][i];
-        if([temp containsString:daysOfTheWeek[currDay]]){
-            [dict setValue:@"placeholder" forKey:daysOfTheWeek[currDay]];
-            currDay++;
+    
+    //Finished final array lots for indexing by day and time
+    NSMutableArray* lots=[[NSMutableArray alloc]init];
+    for(int i=2; i<7; i++){
+        NSMutableArray *temp=[[NSMutableArray alloc]init];
+        for(int j=1; j<5; j++){
+            [temp addObject:daysAndTimes[j][i]];
         }
+        [lots addObject:temp];
     }
-    currDay=0;
-    //Added dictionaries with time slots as key to each day entry in the pre-existing dictionary
-    for(int i=0; i<5; i++){
-        NSMutableDictionary* times=[self getTimes:daysAndTimes];
-        [dict setValue:times forKey:daysOfTheWeek[i]];
-    }
-    return dict;
+    NSLog(@"%@", lots);
+    
+    return lots;
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSMutableDictionary *dict=[self setupDictionary];
-    NSLog(@"%@", dict);
+    //NSLog(@"%@", dict);
     NSString *day=[self dayOfTheWeek];
 }
 
