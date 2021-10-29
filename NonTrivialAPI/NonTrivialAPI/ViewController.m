@@ -12,14 +12,14 @@
 @end
 
 @implementation ViewController
-
+/*
 - (NSMutableDictionary*)getTimes:(NSMutableArray*)arr{
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
     for(int i=1; i<arr.count-1; i++){
         [dict setValue:@"placeholder" forKey:arr[i][1]];
     }
     return dict;
-}
+}*/
 
 - (NSString*) dayOfTheWeek {
     NSDate *date=[NSDate date];
@@ -30,7 +30,7 @@
     return str;
 }
 
-- (NSMutableArray*) setupDictionary{
+- (NSMutableArray*) setupArray{
     NSString *url_string=@"https://www.binghamton.edu/services/transportation-and-parking/parking/index.html";
     NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url_string]];
     NSString * convertedStr =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -84,7 +84,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSMutableDictionary *dict=[self setupDictionary];
+    NSMutableArray* arr=[self setupArray];
+    //NSMutableDictionary *dict=[self setupDictionary];
     //NSLog(@"%@", dict);
     NSString *day=[self dayOfTheWeek];
 }
