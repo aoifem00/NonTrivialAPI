@@ -103,17 +103,25 @@
     label.text=str;
     label.textColor=UIColor.blackColor;
     CGFloat width=200;
-    CGFloat height=100;
+    CGFloat height=50;
     NSLog(@"%f", CGRectGetMidX(self.view.frame));
-    CGFloat x=CGRectGetMidX(self.view.frame)-(width/2);
+    CGFloat labelX=CGRectGetMidX(self.view.frame)-(width/2);
     //NSLog(@"%f", x);
-    CGFloat y=20;
-    label.frame=CGRectMake(x, y, width, height);
+    CGFloat labelY=20;
+    label.frame=CGRectMake(labelX, labelY, width, height);
     label.textAlignment=NSTextAlignmentCenter;
     [self.view addSubview:label];
     for(int i=0; i<self.view.subviews.count; i++){
         NSLog(@"%@", self.view.subviews[i]);
     }
+    CGFloat buttonW=100;
+    CGFloat buttonX=CGRectGetMidX(self.view.frame)-(buttonW/2);
+    CGFloat buttonY=CGRectGetMidY(self.view.frame)-(height/2);
+    UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(buttonX, buttonY, buttonW, height)];
+    [button setTitle:@"Start trip" forState:UIControlStateNormal];
+    [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [self.view addSubview:button];
+    [button setBackgroundColor:UIColor.lightGrayColor];
 }
 
 - (void) startTrip {
