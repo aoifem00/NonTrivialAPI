@@ -13,6 +13,7 @@
 
 @implementation ViewController
 @synthesize manager;
+@synthesize geocoder;
 
 - (NSString*) getDay{
     NSDate *date=[NSDate date];
@@ -107,7 +108,7 @@
     NSLog(@"%f", CGRectGetMidX(self.view.frame));
     CGFloat labelX=CGRectGetMidX(self.view.frame)-(width/2);
     //NSLog(@"%f", x);
-    CGFloat labelY=20;
+    CGFloat labelY=50;
     label.frame=CGRectMake(labelX, labelY, width, height);
     label.textAlignment=NSTextAlignmentCenter;
     [self.view addSubview:label];
@@ -118,18 +119,32 @@
     CGFloat buttonX=CGRectGetMidX(self.view.frame)-(buttonW/2);
     CGFloat buttonY=CGRectGetMidY(self.view.frame)-(height/2);
     UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(buttonX, buttonY, buttonW, height)];
+    [button addTarget:self action:@selector(startTrip:) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"Start trip" forState:UIControlStateNormal];
     [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     [self.view addSubview:button];
     [button setBackgroundColor:UIColor.lightGrayColor];
 }
 
-- (void) startTrip {
-    manager=[[CLLocationManager alloc]init];
-    [manager startUpdatingLocation];
-    NSLog(manager);
-    CLLocation* location=manager.location;
-    //NSLog(location);
+- (IBAction) startTrip:(id)sender{
+    //NSLog(@"Button clicked");
+    
+    CGRect mapFrame=CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height-100);
+    MKMapView* map=[[MKMapView alloc] initWithFrame:mapFrame];
+    /*START*/
+    map.showsUserLocation = YES;
+    map.userTrackingMode=MKUserTrackingModeFollow;
+    map.mapType = MKMapTypeHybrid;
+    map.delegate = self;
+    NSLog(@"%@", map);
+    //NSLog(@"%@", map.userLocationVisible);
+    //CLLocationManager* manager=[[CLLocationManager alloc] init];
+    //[manager requestAlwaysAuthorization];
+    
+    //NSLog(@"%@", manager.authorizationStatus);
+    /*END*/
+    //NSLog(@"%@", map);
+    [self.view addSubview:map];
+    
 }
-
 @end

@@ -45,6 +45,12 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location is required to find out if you&apos;re near Binghamton University</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location is required to find out if you&apos;re near Binghamton University</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location is required to find out if you&apos;re near Binghamton University</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
