@@ -8,8 +8,10 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface ViewController : UIViewController
-@property(nonatomic, strong) CLLocationManager* manager;
+@interface ViewController : UIViewController<CLLocationManagerDelegate, MKMapViewDelegate> {
+    //CLLocationManager *_manager;
+}
+@property(nonatomic, strong) CLLocationManager* locationManager;
 @property(nonatomic, strong) CLGeocoder* geocoder;
 
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		233041892746B4BA0068DEF5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 233041882746B4BA0068DEF5 /* MapKit.framework */; };
 		23E46457271DBDA50046C3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E46456271DBDA50046C3E6 /* AppDelegate.m */; };
 		23E4645A271DBDA50046C3E6 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E46459271DBDA50046C3E6 /* SceneDelegate.m */; };
 		23E4645D271DBDA50046C3E6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23E4645C271DBDA50046C3E6 /* ViewController.m */; };
@@ -18,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		233041882746B4BA0068DEF5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		2330418C2746C2CA0068DEF5 /* Binghamton.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Binghamton.gpx; sourceTree = "<group>"; };
 		23E46452271DBDA50046C3E6 /* NonTrivialAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NonTrivialAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E46455271DBDA50046C3E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		23E46456271DBDA50046C3E6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -38,17 +41,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				233041892746B4BA0068DEF5 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		233041872746B4BA0068DEF5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				233041882746B4BA0068DEF5 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		23E46449271DBDA50046C3E6 = {
 			isa = PBXGroup;
 			children = (
+				2330418C2746C2CA0068DEF5 /* Binghamton.gpx */,
 				23E46454271DBDA50046C3E6 /* NonTrivialAPI */,
 				23E46453271DBDA50046C3E6 /* Products */,
+				233041872746B4BA0068DEF5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -296,6 +310,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 885LFZ46VC;
 				INFOPLIST_FILE = NonTrivialAPI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -313,6 +328,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 885LFZ46VC;
 				INFOPLIST_FILE = NonTrivialAPI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
