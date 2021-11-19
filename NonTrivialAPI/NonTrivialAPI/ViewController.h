@@ -14,10 +14,9 @@
 @property(nonatomic, strong) CLLocationManager* locationManager;
 @property(nonatomic, strong) MKMapView* map;
 @property(nonatomic, strong) NSMutableDictionary *lotCoordinates;
-@property(nonatomic, strong) NSArray* days;
-@property(nonatomic, strong) NSMutableArray *times;
-@property(nonatomic, strong) NSString* day;
+@property(nonatomic, strong) NSNumber* day;
 @property(nonatomic, strong) NSArray *currLots;
+@property(nonatomic, strong) NSMutableArray *allLots;
 @end
 
 

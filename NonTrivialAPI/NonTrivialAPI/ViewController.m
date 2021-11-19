@@ -15,11 +15,13 @@
 @synthesize locationManager;
 @synthesize lotCoordinates;
 @synthesize map;
-@synthesize days;
-@synthesize times;
 @synthesize day;
+@synthesize allLots;
 @synthesize currLots;
 
+typedef enum {
+    Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+} dayOfTheWeek;
 
 // Delegate method
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -36,16 +38,23 @@
     return;
 }
 
-- (NSString*) getDay{
+- (NSNumber*) getDay{
     NSDate *date=[NSDate date];
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
     [dateFormatter setLocalizedDateFormatFromTemplate:@"EEEE"];
     NSString* str=[dateFormatter stringFromDate:date];
-    return str;
+    NSDictionary<NSString*, NSNumber*> *days=@{@"Monday": [NSNumber numberWithInt:Monday],
+                                               @"Tuesday":[NSNumber numberWithInt:Tuesday],
+                                               @"Wednesday":[NSNumber numberWithInt:Wednesday],
+                                               @"Thursday":[NSNumber numberWithInt:Thursday],
+                                               @"Friday":[NSNumber numberWithInt:Friday],
+                                               @"Saturday":[NSNumber numberWithInt:Saturday],
+                                               @"Sunday": [NSNumber numberWithInt:Sunday]};
+    return days[str];
 }
 
-- (NSMutableArray*) setupArray{
+- (void) getAllLots{
     NSString *url_string=@"https://www.binghamton.edu/services/transportation-and-parking/parking/index.html";
     NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url_string]];
     NSString * convertedStr =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -69,7 +78,6 @@
         [daysAndTimes addObject:[listItems[i] componentsSeparatedByString:@"<td>"]];
         
     }
-    
     //Format 2d array
     for(int i=0; i<daysAndTimes.count; i++){
         for(int j=0; j<((NSMutableArray*)daysAndTimes[i]).count; j++){
@@ -80,11 +88,7 @@
             }
         }
     }
-    
-    //Finished final array lots for indexing by day and time
-    
-    
-    NSMutableArray* lots=[[NSMutableArray alloc]init];
+    self.allLots=[[NSMutableArray alloc]init];
     int counter=0;
     for(int i=2; i<7; i++){
         NSMutableArray *temp=[[NSMutableArray alloc]init];
@@ -92,17 +96,8 @@
             counter++;
             [temp addObject:daysAndTimes[j][i]];
         }
-        [lots addObject:temp];
+        [self.allLots addObject:temp];
     }
-    NSLog(@"%@", lots);
-    for(int i=0; i<counter; i++){
-        NSArray* arr=[lots[i/4][i%4] componentsSeparatedByString:@", "];
-        for(int j=0; j<arr.count; j++){
-            //self.lotCoordinates[arr[j]]=@"Some value";
-        }
-    }
-    //NSLog(@"%@", self.lotCoordinates);
-    return lots;
 }
 
 - (void) addCoordinates{
@@ -110,7 +105,6 @@
     self.lotCoordinates[@"E"]=@[@42.09184, @-75.96686];
     self.lotCoordinates[@"E1"]=@[@42.09273, @-75.96310];
     self.lotCoordinates[@"F"]=@[@42.09254, @-75.97190];
-    self.lotCoordinates[@"F"]=@[@42.09257, @-75.97305];
     self.lotCoordinates[@"G1"]=@[@42.09277726615428, @-75.97072722220129];
     self.lotCoordinates[@"H"]=@[@42.09246554099309, @-75.97417006719479];
     self.lotCoordinates[@"M1"]=@[@42.085710373356704, @-75.97369199814878];
@@ -119,39 +113,21 @@
     self.lotCoordinates[@"Y4"]=@[@42.084389420528495, @-75.9692225827033];
     self.lotCoordinates[@"Y5"]=@[@42.08420727286999, @-75.96860355942297];
     self.lotCoordinates[@"ZZ"]=@[@42.08696044639982, @-75.98075395148499];
-    
-    /*F = "Some value";
-    F3 = "Some value";
-    G1 = "Some value";
-    H = "Some value";
-    M1 = "Some value";
-    M3 = "Some value";
-    M4 = "Some value";
-    Y4 = "Some value";
-    Y5 = "Some value";
-    ZZ = "Some value";*/
-    //self.lotCoordinates[]
-    /*self.lotCoordinates[@"E1"]=CLLocationCoordinate2DMake(42.09273 -75.96310);*/
-   // self.lotCoordinates[
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSMutableArray* arr=[self setupArray];
-    
-    self.days=@[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday"];
+    [self getAllLots];
     
     self.day=[self getDay];
     
-    if([day isEqual:@"Saturday"]){
-        self.day=@"Monday";
+    if(day==[NSNumber numberWithInt:Sunday]){
+        self.day=[NSNumber numberWithInt:Monday];
     }
-    else if([day isEqual:@"Sunday"]){
-        self.day=@"Monday";
+    else if(day==[NSNumber numberWithInt:Sunday]){
+        self.day=[NSNumber numberWithInt:Monday];
     }
-    int num=(int)[self.days indexOfObject:day];
     
-    self.times=arr[num];
     [self homescreenView];
     self.locationManager=[[CLLocationManager alloc]init];
     self.locationManager.delegate=self;
@@ -199,25 +175,24 @@
     if(currTime>=8 && currTime<10){
         timeIndex=0;
     }
-    else if(currTime>=8 && currTime<10){
+    else if(currTime>=10 && currTime<13){
         timeIndex=1;
     }
-    else if(currTime>=8 && currTime<10){
+    else if(currTime>=13 && currTime<15){
         timeIndex=2;
     }
-    
-    else if(currTime>=8 && currTime<10){
+    else if(currTime>=15 && currTime<17){
         timeIndex=3;
     }
     else{
         timeIndex=0;
     }
-    //NSLog(@"%@", self.times);
-    self.currLots=[self.times[timeIndex] componentsSeparatedByString:@", "];
+    NSArray* lotsForDay=(NSArray*)self.allLots[[day intValue]];
+    self.currLots=[lotsForDay[timeIndex] componentsSeparatedByString:@", "];
 }
+
 - (void) addLotsToMap{
     [self getCurrentLots];
-    //NSLog(@"Current Lots: %@", self.currLots);
     for(int i=0; i<self.currLots.count; i++){
         NSArray* arr=[self.lotCoordinates objectForKey:self.currLots[i]];
         double lat=[[arr objectAtIndex:0] doubleValue];
@@ -238,7 +213,6 @@
     self.map.showsUserLocation=YES;
     self.map.userTrackingMode=MKUserTrackingModeFollow;
     
-    [self.view addSubview:map];
-    
+    [self.view addSubview:self.map];
 }
 @end
