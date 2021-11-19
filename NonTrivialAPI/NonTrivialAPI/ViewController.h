@@ -13,6 +13,7 @@
 }
 @property(nonatomic, strong) CLLocationManager* locationManager;
 @property(nonatomic, strong) CLGeocoder* geocoder;
-
+@property(nonatomic, strong) MKMapView* map;
+@property(nonatomic, strong) NSMutableDictionary *lotCoordinates;
 @end
 

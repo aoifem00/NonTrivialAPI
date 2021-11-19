@@ -20,7 +20,6 @@
 
 /* Begin PBXFileReference section */
 		233041882746B4BA0068DEF5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		2330418C2746C2CA0068DEF5 /* Binghamton.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Binghamton.gpx; sourceTree = "<group>"; };
 		23E46452271DBDA50046C3E6 /* NonTrivialAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NonTrivialAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E46455271DBDA50046C3E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		23E46456271DBDA50046C3E6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -59,7 +58,6 @@
 		23E46449271DBDA50046C3E6 = {
 			isa = PBXGroup;
 			children = (
-				2330418C2746C2CA0068DEF5 /* Binghamton.gpx */,
 				23E46454271DBDA50046C3E6 /* NonTrivialAPI */,
 				23E46453271DBDA50046C3E6 /* Products */,
 				233041872746B4BA0068DEF5 /* Frameworks */,

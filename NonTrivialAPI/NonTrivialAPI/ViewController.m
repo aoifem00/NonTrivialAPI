@@ -13,7 +13,8 @@
 
 @implementation ViewController
 @synthesize locationManager;
-@synthesize geocoder;
+@synthesize map;
+
 
 
 // Delegate method
@@ -28,13 +29,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-UIAlertView *errorAlert = [[UIAlertView alloc]
-                           initWithTitle:@"Error"
-                                 message:@"Failed to Get Your Location"
-                                delegate:nil
-                       cancelButtonTitle:@"OK"
-                      otherButtonTitles:nil];
-[errorAlert show];
+    return;
 }
 
 - (NSString*) getDay{
@@ -83,22 +78,61 @@ UIAlertView *errorAlert = [[UIAlertView alloc]
     }
     
     //Finished final array lots for indexing by day and time
+    
+    
     NSMutableArray* lots=[[NSMutableArray alloc]init];
+    int counter=0;
     for(int i=2; i<7; i++){
         NSMutableArray *temp=[[NSMutableArray alloc]init];
         for(int j=1; j<5; j++){
+            counter++;
             [temp addObject:daysAndTimes[j][i]];
         }
         [lots addObject:temp];
     }
-    
+    NSLog(@"%@", lots);
+    for(int i=0; i<counter; i++){
+        NSArray* arr=[lots[i/4][i%4] componentsSeparatedByString:@", "];
+        for(int j=0; j<arr.count; j++){
+            //self.lotCoordinates[arr[j]]=@"Some value";
+        }
+    }
+    //NSLog(@"%@", self.lotCoordinates);
     return lots;
+}
+
+- (void) addCoordinates{
+   // CL
+    //NSArray*arr=
+    self.lotCoordinates=[[NSMutableDictionary alloc]init];
+    self.lotCoordinates[@"E"]=@[@42.09184, @-75.96686];
+    self.lotCoordinates[@"E1"]=@[@42.09273, @-75.96310];
+    self.lotCoordinates[@"F"]=@[@42.09254, @-75.97190];
+    self.lotCoordinates[@"F"]=@[@42.09257, @-75.97305];
+    self.lotCoordinates[@"G1"]=@[@42.09277726615428, @-75.97072722220129];
+    self.lotCoordinates[@"H"]=@[@42.09246554099309, @-75.97417006719479];
+    self.lotCoordinates[@"M1"]=@[@42.085710373356704, @-75.97369199814878];
+    self.lotCoordinates[@"M3"]=@[@42.087764235271834, @-75.97474889471316];
+    /*F = "Some value";
+    F3 = "Some value";
+    G1 = "Some value";
+    H = "Some value";
+    M1 = "Some value";
+    M3 = "Some value";
+    M4 = "Some value";
+    Y4 = "Some value";
+    Y5 = "Some value";
+    ZZ = "Some value";*/
+    //self.lotCoordinates[]
+    /*self.lotCoordinates[@"E1"]=CLLocationCoordinate2DMake(42.09273 -75.96310);*/
+   // self.lotCoordinates[
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSMutableArray* arr=[self setupArray];
-    NSMutableArray* days=@[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday"];
+    
+    NSArray* days=@[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday"];
     
     NSString *day=[self getDay];
     NSMutableArray* times;
@@ -115,26 +149,12 @@ UIAlertView *errorAlert = [[UIAlertView alloc]
     self.locationManager.delegate=self;
     [self.locationManager requestAlwaysAuthorization];
     [self.locationManager requestWhenInUseAuthorization];
-    NSLog(@"%d", self.locationManager.authorizationStatus);
-    [self.locationManager requestLocation];
-    NSLog(@"%@", self.locationManager.location);
-    //manager.delegate=self;
-    //[self getLocation];
-}
-/*
-- (void) getLocation{
-    self.manager=[[CLLocationManager alloc] init];
-    _manager.delegate=self;
-    _manager.desiredAccuracy=kCLLocationAccuracyBest;
-    [_manager startUpdatingLocation];
     
-}*/
-
-/*
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
-    NSLog(@"%@", [locations lastObject]);
-}*/
+    self.locationManager.distanceFilter=kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+    
+    [self.locationManager requestLocation];
+}
 
 - (void) homescreenView{
     NSString* str=@"Find a parking lot!";
@@ -160,12 +180,47 @@ UIAlertView *errorAlert = [[UIAlertView alloc]
     [button setBackgroundColor:UIColor.lightGrayColor];
 }
 
+- (void) addLotsToMap{
+    NSArray* keys=[self.lotCoordinates allKeys];
+    for(int i=0; i<keys.count; i++){
+        NSArray *arr=[self.lotCoordinates objectForKey:keys[i]];
+        double lat=[[arr objectAtIndex:0] doubleValue];
+        double lon=[[arr objectAtIndex:1] doubleValue];
+        MKPointAnnotation* point=[[MKPointAnnotation alloc]initWithCoordinate:CLLocationCoordinate2DMake(lat, lon)title:keys[i]subtitle:@""];
+        [self.map addAnnotation:point];
+    }
+    
+}
 - (IBAction) startTrip:(id)sender{
+    [self addCoordinates];
+    
     CGRect mapFrame=CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height-100);
-    MKMapView* map=[[MKMapView alloc] initWithFrame:mapFrame];
-    map.mapType=MKMapTypeHybrid;
-    map.showsUserLocation=YES;
-    map.userTrackingMode=MKUserTrackingModeFollow;
+    self.map=[[MKMapView alloc] initWithFrame:mapFrame];
+    [self addLotsToMap];
+    //[self.locationManager stopUpdatingLocation];
+    //self.map.tintColor=UIColor.blueColor;
+    //for(int i=0; i<self.)
+    /*NSArray* arr=[self.lotCoordinates objectForKey:@"H"];
+    NSLog(@"%@", arr);
+    double lat=[[arr objectAtIndex:0] doubleValue];
+    double lon=[[arr objectAtIndex:1] doubleValue];
+    NSLog(@"%f", lat);
+    MKPlacemark* placemark=[[MKPlacemark alloc]initWithCoordinate:CLLocationCoordinate2DMake(lat, lon)];
+    [self.map addAnnotation:placemark];
+    NSArray *a=self.map.annotations;
+    NSLog(@"Annotations: %@", a);*/
+   //double lon=(double)self.lotCoordinates[@"H1"][1];
+    
+    /*MKPointAnnotation* annotation=[[MKPointAnnotation alloc]initWithCoordinate:CLLocationCoordinate2DMake(self.lotCoordinates[@"H1"][0], self.lotCoordinates[@"H1"][1])];*/
+    
+    self.map.mapType=MKMapTypeHybrid;
+    self.map.showsUserLocation=YES;
+    self.map.userTrackingMode=MKUserTrackingModeFollow;
+    
+    //MKAnnotationView pin=
+    
+    //map.showsZoomControls=YES;
+    //NSLog(@"%d", map.zoomEnabled);
     //map.delegate=self;
     //[map setCenterCoordinate:coord];
    // map.showsUserLocation=YES;
