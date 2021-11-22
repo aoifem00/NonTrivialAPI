@@ -25,16 +25,10 @@ typedef enum {
 
 // Delegate method
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    NSLog(@"Hello");
-    CLLocation* loc = [locations lastObject]; // locations is guaranteed to have at least one object
-    float latitude = loc.coordinate.latitude;
-    float longitude = loc.coordinate.longitude;
-    NSLog(@"%.8f",latitude);
-    NSLog(@"%.8f",longitude);
+    return;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     return;
 }
 
@@ -100,8 +94,6 @@ typedef enum {
     }
 }
 
-
-
 - (void) addCoordinates{
     self.lotCoordinates=[[NSMutableDictionary alloc]init];
     self.lotCoordinates[@"E"]=@[@42.09184, @-75.96686];
@@ -140,9 +132,6 @@ typedef enum {
     self.locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     
     [self.locationManager requestLocation];
-    
-    //UIFont* font=[UIFont fontWithName:@"Chalkduster" size:];
-
 }
 
 - (void) homescreenView{
@@ -183,7 +172,6 @@ typedef enum {
 }
 
 - (void) parkingLotView{
-    NSLog(@"In parking lot view");
     CGFloat buttonX=CGRectGetMinX(self.view.frame);
     CGFloat buttonY=CGRectGetMinY(self.view.frame)+5;
     NSString* str=@"Back";
@@ -207,7 +195,6 @@ typedef enum {
     self.map.userTrackingMode=MKUserTrackingModeFollow;
     
     [self.view addSubview:self.map];
-    
 }
 
 - (void) getCurrentLots{
