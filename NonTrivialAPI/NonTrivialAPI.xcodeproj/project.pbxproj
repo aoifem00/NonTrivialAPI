@@ -20,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		233041882746B4BA0068DEF5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		23D67D63274BE023001BC36D /* Binghamton.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Binghamton.gpx; sourceTree = "<group>"; };
 		23E46452271DBDA50046C3E6 /* NonTrivialAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NonTrivialAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E46455271DBDA50046C3E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		23E46456271DBDA50046C3E6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 				23E46459271DBDA50046C3E6 /* SceneDelegate.m */,
 				23E4645B271DBDA50046C3E6 /* ViewController.h */,
 				23E4645C271DBDA50046C3E6 /* ViewController.m */,
+				23D67D63274BE023001BC36D /* Binghamton.gpx */,
 				23E4645E271DBDA50046C3E6 /* Main.storyboard */,
 				23E46464271DBDA60046C3E6 /* Assets.xcassets */,
 				23E46466271DBDA60046C3E6 /* LaunchScreen.storyboard */,

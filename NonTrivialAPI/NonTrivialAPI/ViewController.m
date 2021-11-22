@@ -100,6 +100,8 @@ typedef enum {
     }
 }
 
+
+
 - (void) addCoordinates{
     self.lotCoordinates=[[NSMutableDictionary alloc]init];
     self.lotCoordinates[@"E"]=@[@42.09184, @-75.96686];
@@ -138,13 +140,17 @@ typedef enum {
     self.locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     
     [self.locationManager requestLocation];
+    
+    //UIFont* font=[UIFont fontWithName:@"Chalkduster" size:];
+
 }
 
 - (void) homescreenView{
-    NSString* str=@"Find a parking lot!";
+    NSString* str=@"Welcome!";
     UILabel* label=[[UILabel alloc] init];
     label.text=str;
     label.textColor=UIColor.blackColor;
+    label.font=[UIFont fontWithName:@"Chalkduster" size:18];
     CGFloat width=200;
     CGFloat height=50;
     CGFloat labelX=CGRectGetMidX(self.view.frame)-(width/2);
@@ -153,15 +159,55 @@ typedef enum {
     label.textAlignment=NSTextAlignmentCenter;
     [self.view addSubview:label];
     
-    CGFloat buttonW=100;
+    CGFloat buttonW=220;
     CGFloat buttonX=CGRectGetMidX(self.view.frame)-(buttonW/2);
     CGFloat buttonY=CGRectGetMidY(self.view.frame)-(height/2);
     UIButton *button=[[UIButton alloc]initWithFrame:CGRectMake(buttonX, buttonY, buttonW, height)];
     [button addTarget:self action:@selector(startTrip:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"Start trip" forState:UIControlStateNormal];
+    [button setTitle:@"Find a parking lot!" forState:UIControlStateNormal];
     [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    button.titleLabel.font=[UIFont fontWithName:@"Chalkduster" size:18];
     [self.view addSubview:button];
     [button setBackgroundColor:UIColor.lightGrayColor];
+}
+
+- (void) clearScreen{
+    for (UIView *view in [self.view subviews])
+    {
+        [view removeFromSuperview];
+    }
+}
+- (IBAction) goBack:(id)sender{
+    [self clearScreen];
+    [self homescreenView];
+}
+
+- (void) parkingLotView{
+    NSLog(@"In parking lot view");
+    CGFloat buttonX=CGRectGetMinX(self.view.frame);
+    CGFloat buttonY=CGRectGetMinY(self.view.frame)+5;
+    NSString* str=@"Back";
+    
+    CGRect frame=CGRectMake(buttonX, buttonY, 100, 100);
+    UIButton* button=[[UIButton alloc]initWithFrame:frame];
+    [button setTitle:str forState:UIControlStateNormal];
+    [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.font=[UIFont fontWithName:@"Chalkduster" size:18];
+    [self.view addSubview:button];
+    
+    [self addCoordinates];
+    
+    CGRect mapFrame=CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height-100);
+    self.map=[[MKMapView alloc] initWithFrame:mapFrame];
+    [self addLotsToMap];
+    
+    self.map.mapType=MKMapTypeHybrid;
+    self.map.showsUserLocation=YES;
+    self.map.userTrackingMode=MKUserTrackingModeFollow;
+    
+    [self.view addSubview:self.map];
+    
 }
 
 - (void) getCurrentLots{
@@ -203,16 +249,7 @@ typedef enum {
 }
 
 - (IBAction) startTrip:(id)sender{
-    [self addCoordinates];
-    
-    CGRect mapFrame=CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height-100);
-    self.map=[[MKMapView alloc] initWithFrame:mapFrame];
-    [self addLotsToMap];
-    
-    self.map.mapType=MKMapTypeHybrid;
-    self.map.showsUserLocation=YES;
-    self.map.userTrackingMode=MKUserTrackingModeFollow;
-    
-    [self.view addSubview:self.map];
+    [self clearScreen];
+    [self parkingLotView];
 }
 @end
